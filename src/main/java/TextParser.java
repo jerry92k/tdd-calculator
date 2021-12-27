@@ -56,10 +56,8 @@ public class TextParser {
     }
 
     private List<String> splitWithDelimiters(String text, String delimiters) {
-        if (text == null || text.isEmpty()) {
-            return Arrays.asList("0");
-        }
-        return Arrays.asList(text.split(delimiters));
+        return text == null || text.isEmpty() ? Arrays.asList("0")
+            : Arrays.asList(text.split(delimiters));
     }
 
     private String getDelimitersWithCustom(String customDelimiter) {
@@ -69,7 +67,7 @@ public class TextParser {
     private void validateDelimiterFormat(String customDelimiter) {
         Stack<Character> bracketStack = new Stack<>();
         for (char ch : customDelimiter.toCharArray()) {
-            checkBracket(bracketStack,ch);
+            checkBracket(bracketStack, ch);
         }
         if (!bracketStack.isEmpty()) {
             throw new IllegalArgumentException(ERROR_MESSAGE_DELMITER_FORMAT);
