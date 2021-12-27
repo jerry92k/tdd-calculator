@@ -12,7 +12,7 @@ public class TextCalculatorTest {
     @Test
     void add1() {
         String textNumbers="";
-        TextCalculator textCalculator = new TextCalculator();
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
         assertThat(textCalculator.add(textNumbers)).isEqualTo(0);
     }
 
@@ -20,7 +20,7 @@ public class TextCalculatorTest {
     @CsvSource(value = {"1:1","1,2:3","0,7:7","1,2,3,4,5:15"},delimiter = ':')
     @ParameterizedTest
     void add2(String textNumbers, int expectedSum) {
-        TextCalculator textCalculator = new TextCalculator();
+        TextCalculator textCalculator =new TextCalculator(new TextParser());
         assertThat(textCalculator.add(textNumbers)).isEqualTo(expectedSum);
     }
 
@@ -28,7 +28,7 @@ public class TextCalculatorTest {
     @CsvSource(value = {"1.0:1","0.1,2:3","하나,7:8"},delimiter = ':')
     @ParameterizedTest
     void add_exception1(String textNumbers, int expectedSum) {
-        TextCalculator textCalculator = new TextCalculator();
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
         assertThatThrownBy(()->textCalculator.add(textNumbers))
             .isInstanceOf(NumberFormatException.class);
     }
@@ -37,7 +37,7 @@ public class TextCalculatorTest {
     @Test
     void add3() {
         String textNumbers="1,2\n4";
-        TextCalculator textCalculator = new TextCalculator();
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
         assertThat(textCalculator.add(textNumbers)).isEqualTo(7);
     }
 
@@ -45,7 +45,15 @@ public class TextCalculatorTest {
     @Test
     void add4() {
         String textNumbers="1,2,\n4";
-        TextCalculator textCalculator = new TextCalculator();
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
         assertThat(textCalculator.add(textNumbers)).isEqualTo(7);
+    }
+
+    @DisplayName("커스텀 구분자를 사용할 수 있다.")
+    @Test
+    void add5() {
+        String textNumbers="//#\n1,2#,4\n3";
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
+        assertThat(textCalculator.add(textNumbers)).isEqualTo(10);
     }
 }

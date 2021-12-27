@@ -1,16 +1,21 @@
 import java.util.Arrays;
+import java.util.List;
 
 public class TextCalculator {
 
-    private static final String DELIMITERS = ",|\n";
+    private TextParser textParser;
+
+    public TextCalculator(TextParser textParser) {
+        this.textParser = textParser;
+    }
 
     public int add(String textNumbers) {
-        String[] splited = textNumbers.split(DELIMITERS);
+        List<String> splited = textParser.splitText(textNumbers);
         return calculateTextNumbers(splited);
     }
 
-    private int calculateTextNumbers(String[] splited) {
-        return Arrays.stream(splited)
+    private int calculateTextNumbers(List<String> splited) {
+        return splited.stream()
             .mapToInt(it->it.isEmpty() ? 0 : Integer.parseInt(it))
             .sum();
     }
