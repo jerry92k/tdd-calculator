@@ -24,15 +24,6 @@ public class TextCalculatorTest {
         assertThat(textCalculator.add(textNumbers)).isEqualTo(expectedSum);
     }
 
-    @DisplayName("정수가 아닌 경우 오류")
-    @CsvSource(value = {"1.0:1","0.1,2:3","하나,7:8"},delimiter = ':')
-    @ParameterizedTest
-    void add_exception1(String textNumbers, int expectedSum) {
-        TextCalculator textCalculator = new TextCalculator(new TextParser());
-        assertThatThrownBy(()->textCalculator.add(textNumbers))
-            .isInstanceOf(NumberFormatException.class);
-    }
-
     @DisplayName("문자열 구분자로 , 와 \n을 사용한다.")
     @Test
     void add3() {
@@ -55,5 +46,25 @@ public class TextCalculatorTest {
         String textNumbers="//#\n1,2#,4\n3";
         TextCalculator textCalculator = new TextCalculator(new TextParser());
         assertThat(textCalculator.add(textNumbers)).isEqualTo(10);
+    }
+
+    @DisplayName("정수가 아닌 경우 오류")
+    @CsvSource(value = {"1.0:1","0.1,2:3","하나,7:8"},delimiter = ':')
+    @ParameterizedTest
+    void add_exception1(String textNumbers, int expectedSum) {
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
+        assertThatThrownBy(()->textCalculator.add(textNumbers))
+            .isInstanceOf(NumberFormatException.class);
+    }
+
+    @DisplayName("음수인 경우 오류")
+    @Test
+    void add_exception2() {
+        String textNumbers="//#\n1,2#,-14\n3,-1#-5";
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
+        assertThatThrownBy(()->textCalculator.add(textNumbers))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("음수는 허용되지 않음")
+            .hasMessageContaining("-14,-1,-5");
     }
 }
