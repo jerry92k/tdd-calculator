@@ -48,6 +48,14 @@ public class TextCalculatorTest {
         assertThat(textCalculator.add(textNumbers)).isEqualTo(10);
     }
 
+    @DisplayName("100 보다 큰 수는 무시한다")
+    @Test
+    void add6() {
+        String textNumbers="//#\n1,2#,4\n3#101";
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
+        assertThat(textCalculator.add(textNumbers)).isEqualTo(10);
+    }
+
     @DisplayName("정수가 아닌 경우 오류")
     @CsvSource(value = {"1.0:1","0.1,2:3","하나,7:8"},delimiter = ':')
     @ParameterizedTest

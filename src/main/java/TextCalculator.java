@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,16 +15,21 @@ public class TextCalculator {
     }
 
     private int calculateTextNumbers(List<String> splited) {
+        List<Integer> numbers = convertToNumbers(splited);
+        validateNoMinusValue(numbers);
+        return calculateSum(numbers);
+    }
 
-        List<Integer> numbers = splited.stream()
+    private int calculateSum(List<Integer> numbers) {
+        return numbers.stream()
+            .mapToInt(number -> number > 100 ? 0 : number)
+            .sum();
+    }
+
+    private List<Integer> convertToNumbers(List<String> splited) {
+        return splited.stream()
             .map(it -> it.isEmpty() ? 0 : Integer.parseInt(it))
             .collect(Collectors.toList());
-
-        validateNoMinusValue(numbers);
-
-        return splited.stream()
-            .mapToInt(it -> it.isEmpty() ? 0 : Integer.parseInt(it))
-            .sum();
     }
 
     private void validateNoMinusValue(List<Integer> numbers) {
