@@ -2,17 +2,16 @@ import java.util.Arrays;
 
 public class TextCalculator {
 
+    private static final String DELIMITERS = ",|\n";
+
     public int add(String textNumbers) {
-        if(textNumbers.isEmpty()){
-            return 0;
-        }
-        String[] splited = textNumbers.split(",");
-        try {
-            return Arrays.stream(splited)
-                .mapToInt(Integer::parseInt)
-                .sum();
-        }catch (NumberFormatException ex){
-            throw new NumberFormatException("입력형식이 잘못되었습니다.");
-        }
+        String[] splited = textNumbers.split(DELIMITERS);
+        return calculateTextNumbers(splited);
+    }
+
+    private int calculateTextNumbers(String[] splited) {
+        return Arrays.stream(splited)
+            .mapToInt(it->it.isEmpty() ? 0 : Integer.parseInt(it))
+            .sum();
     }
 }

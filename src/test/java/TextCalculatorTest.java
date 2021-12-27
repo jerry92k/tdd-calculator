@@ -27,10 +27,25 @@ public class TextCalculatorTest {
     @DisplayName("정수가 아닌 경우 오류")
     @CsvSource(value = {"1.0:1","0.1,2:3","하나,7:8"},delimiter = ':')
     @ParameterizedTest
-    void add_exception2(String textNumbers, int expectedSum) {
+    void add_exception1(String textNumbers, int expectedSum) {
         TextCalculator textCalculator = new TextCalculator();
         assertThatThrownBy(()->textCalculator.add(textNumbers))
             .isInstanceOf(NumberFormatException.class);
     }
 
+    @DisplayName("문자열 구분자로 , 와 \n을 사용한다.")
+    @Test
+    void add3() {
+        String textNumbers="1,2\n4";
+        TextCalculator textCalculator = new TextCalculator();
+        assertThat(textCalculator.add(textNumbers)).isEqualTo(7);
+    }
+
+    @DisplayName("문자열 구분자로 , 와 \n을 붙여 사용해도 가능하다.")
+    @Test
+    void add4() {
+        String textNumbers="1,2,\n4";
+        TextCalculator textCalculator = new TextCalculator();
+        assertThat(textCalculator.add(textNumbers)).isEqualTo(7);
+    }
 }
