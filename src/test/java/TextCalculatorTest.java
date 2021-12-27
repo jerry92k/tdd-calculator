@@ -56,6 +56,14 @@ public class TextCalculatorTest {
         assertThat(textCalculator.add(textNumbers)).isEqualTo(10);
     }
 
+    @DisplayName("구분자를 2개 이상 받을 수 있다")
+    @Test
+    void add7() {
+        String textNumbers="//[#][+]\n1,2#,4\n3+1,3+3";
+        TextCalculator textCalculator = new TextCalculator(new TextParser());
+        assertThat(textCalculator.add(textNumbers)).isEqualTo(17);
+    }
+
     @DisplayName("정수가 아닌 경우 오류")
     @CsvSource(value = {"1.0:1","0.1,2:3","하나,7:8"},delimiter = ':')
     @ParameterizedTest
@@ -75,4 +83,6 @@ public class TextCalculatorTest {
             .hasMessageContaining("음수는 허용되지 않음")
             .hasMessageContaining("-14,-1,-5");
     }
+
+
 }
