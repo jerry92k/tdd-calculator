@@ -16,21 +16,12 @@ public class TextCalculatorTest {
         assertThat(textCalculator.add(textNumbers)).isEqualTo(0);
     }
 
-    @DisplayName("문자열로 1~2개의 정수를 입력받아 계산한다.")
-    @CsvSource(value = {"1:1","1,2:3","0,7:7"},delimiter = ':')
+    @DisplayName("문자열로 정수를 입력받아 계산한다.")
+    @CsvSource(value = {"1:1","1,2:3","0,7:7","1,2,3,4,5:15"},delimiter = ':')
     @ParameterizedTest
     void add2(String textNumbers, int expectedSum) {
         TextCalculator textCalculator = new TextCalculator();
         assertThat(textCalculator.add(textNumbers)).isEqualTo(expectedSum);
-    }
-
-    @DisplayName("2개 초과인 경우 오류")
-    @CsvSource(value = {"1,2,3:6","0,0,1:1"},delimiter = ':')
-    @ParameterizedTest
-    void add_exception1(String textNumbers, int expectedSum) {
-        TextCalculator textCalculator = new TextCalculator();
-        assertThatThrownBy(()->textCalculator.add(textNumbers))
-            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("정수가 아닌 경우 오류")

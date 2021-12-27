@@ -7,9 +7,6 @@ public class TextCalculator {
             return 0;
         }
         String[] splited = textNumbers.split(",");
-        if(splited.length>2){
-            throw new IllegalArgumentException("정수는 0,1,2 개만 받을 수 있습니다.");
-        }
         try {
             return Arrays.stream(splited)
                 .mapToInt(Integer::parseInt)
